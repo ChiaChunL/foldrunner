@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+title: >-
+  foldrunner: all-vs-all structure-prediction panels with one
+  alignment per sequence
+message: If you use this software, please cite it as below.
+type: software
+authors:
+  - given-names: Jiajun
+    family-names: Li
+    email: ChiaChun.Le@gmail.com
+repository-code: https://github.com/ChiaChunL/foldrunner
+license: BSD-3-Clause
+abstract: >-
+  foldrunner turns a protein library into structure-prediction jobs. It
+  enumerates all-vs-all pairs including self-pairs, computes each multiple
+  sequence alignment once and addresses it by sequence content, and writes
+  native input files for AlphaFold 3, AlphaFold Server, Boltz-2, Protenix,
+  Chai-1, ColabFold, AlphaFold2-Multimer and SeedFold. Paired and unpaired
+  alignments are kept apart and the paired depth is reported per job, because
+  cross-species pairs have almost no pairing and their interface scores are
+  therefore not comparable to same-species pairs.
+keywords:
+  - alphafold
+  - structure-prediction
+  - protein-protein-interaction
+  - multiple-sequence-alignment
+  - bioinformatics
+references:
+  - type: software
+    title: >-
+      foldmetrics: unified confidence metrics and interface contacts for
+      structure-prediction models
+    authors:
+      - given-names: Jiajun
+        family-names: Li
+    repository-code: https://github.com/ChiaChunL/foldmetrics
+    license: BSD-3-Clause
+    notes: >-
+      Reads the outputs foldrunner's panels produce and computes ipSAE, pDockQ2,
+      LIS and DockQ across engines.

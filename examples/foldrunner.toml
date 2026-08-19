@@ -1,0 +1,56 @@
+# Where the engines live on this machine. Copy to ./foldrunner.toml, to
+# ~/.config/foldrunner/foldrunner.toml, or point FOLDRUNNER_CONFIG at it.
+#
+# The engine modules know the shape of each command; this file only says where
+# things are installed and what has to happen before they will run.
+
+[defaults]
+# A non-interactive shell is not a login shell: conda is not on PATH and
+# `conda activate` is not defined until this file is sourced.
+conda_sh = "/home/jjli/software/anaconda3/etc/profile.d/conda.sh"
+output_root = "/home/jjli/work_dir/predictions"
+
+[engines.boltz2]
+conda_env = "boltz2"
+
+[engines.protenix]
+conda_env = "protenix"
+# Protenix looks for its chemical component dictionary under this root.
+env = { PROTENIX_ROOT_DIR = "/home/jjli/software/Protenix_data" }
+
+[engines.chai1]
+conda_env = "chai1"
+# Chai-1 fetches its own weights, but the ESM-2 embeddings it needs come from
+# Hugging Face; on a machine that cannot reach it, point at a mirror.
+env = { HF_ENDPOINT = "https://hf-mirror.com" }
+
+[engines.colabfold]
+executable = "/home/jjli/software/localcolabfold/colabfold-conda/bin/colabfold_batch"
+extra_args = "--num-models 5 --num-recycle 3 --model-type alphafold2_multimer_v3"
+
+[engines.af3]
+container = "docker"
+image = "alphafold3"
+gpus = "all"
+# Alignment paths inside an AlphaFold 3 job are absolute, so the input has to be
+# visible at the same path inside the container as outside it.
+mounts = [
+    "{input_dir}:{input_dir}",
+    "{out}:{out}",
+    "/home/jjli/work_dir/af3_models:/models",
+    "/home/jjli/work_dir/af3_db:/db",
+]
+extra_args = "--model_dir=/models --db_dir=/db --norun_data_pipeline"
+
+[engines.af2_multimer]
+# The multimer preset is not the default anywhere: both AlphaFold2 and the
+# usual wrappers start the monomer pipeline, which rejects the multi-record
+# FASTA this engine writes — after the job has started. Spelling differs by
+# entry point; run_alphafold.py wants --model_preset=multimer.
+# AlphaFold2 usually lives on its own machine. Copy the panel there and run
+# foldrunner on that machine — the snapshot records relative paths, so it moves.
+executable = "/data/alphafold/scripts/run_af2.sh"
+extra_args = "--model-preset multimer --num-multimer-predictions-per-model 5"
+
+# AlphaFold Server and SeedFold are web forms: their inputs are uploaded by
+# hand, so they have no entry here. `foldrunner run` reports them separately.

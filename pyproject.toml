@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "foldrunner"
+description = "Enumerate all-vs-all protein pairs, compute each MSA once, and generate native inputs for AlphaFold 3, AlphaFold Server, Boltz-2, Protenix, Chai-1, ColabFold, AlphaFold2-Multimer and SeedFold"
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Jiajun Li", email = "ChiaChun.Le@gmail.com" }]
+keywords = [
+    "alphafold",
+    "structure-prediction",
+    "protein-complex",
+    "protein-protein-interaction",
+    "msa",
+    "boltz",
+    "chai-1",
+    "protenix",
+    "colabfold",
+    "bioinformatics",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+    "pyyaml>=6.0",
+    "requests>=2.28",
+    'tomli>=2.0; python_version < "3.11"',
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+chai = ["pandas>=2.0", "pyarrow>=14.0"]
+# Scoring the outputs. 0.1.6 is the first release verified against every
+# engine's untouched native tree: earlier ones collapse a panel into one
+# row, count AlphaFold3 models twice, and report no PAE-based metric at
+# all for recent Chai-1 runs.
+metrics = ["foldmetrics>=0.1.7"]
+config = ['tomli>=2.0; python_version < "3.11"']
+completion = ["argcomplete>=3.0"]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.5",
+    "foldmetrics>=0.1.7",
+    "pandas>=2.0",
+    "pyarrow>=14.0",
+]
+
+[project.scripts]
+foldrunner = "foldrunner.cli:main"
+frx = "foldrunner.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ChiaChunL/foldrunner"
+Repository = "https://github.com/ChiaChunL/foldrunner"
+Issues = "https://github.com/ChiaChunL/foldrunner/issues"
+
+[tool.hatch.version]
+path = "src/foldrunner/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "docs", "README.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
