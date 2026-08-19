@@ -376,7 +376,11 @@ def cmd_write(args: argparse.Namespace) -> int:
     if args.resume:
         print(f"resumed    {skipped_total} already written, skipped")
     print(f"engines    {', '.join(done) if done else 'none'}")
-    print(f"files      {len(jobs) * len(done)} under {outdir}")
+    # Counted, not multiplied out: engines that take the whole panel write one
+    # file for all of it, and a couple write a companion alongside each input,
+    # so complexes times engines is not what lands on disk.
+    written_files = sum(1 for p in outdir.rglob("*") if p.is_file())
+    print(f"files      {written_files} under {outdir}")
     print(f"manifest   {manifest}")
     for name, reason in failures:
         print(f"\nskipped {name}: {reason}", file=sys.stderr)

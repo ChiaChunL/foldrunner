@@ -165,3 +165,20 @@ def test_a_cache_that_matches_nothing_is_an_error_not_a_silent_downgrade(tmp_pat
     code = main(["write", str(LIBRARY), "-o", str(tmp_path / "panel"),
                  "--cache", str(empty), "--engines", "boltz2"])
     assert code == 2
+
+
+def test_the_file_count_is_counted_not_multiplied_out(panel, capsys):
+    """Batch engines write one file for the whole panel and a couple write a
+    companion alongside each input, so complexes times engines is not what lands
+    on disk."""
+    assert main(["write", str(LIBRARY), "-o", str(panel), "--seeds", "2066,318"]) == 0
+    reported = int(
+        next(
+            line.split()[1]
+            for line in capsys.readouterr().out.splitlines()
+            if line.startswith("files")
+        )
+    )
+    actual = sum(1 for p in panel.rglob("*") if p.is_file())
+    assert reported == actual
+    assert reported != COMPLEXES * len(ENGINES), "the naive product happens to match"
