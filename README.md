@@ -4,8 +4,10 @@
 
 | Testing | [![CI](https://github.com/ChiaChunL/foldrunner/actions/workflows/ci.yml/badge.svg)](https://github.com/ChiaChunL/foldrunner/actions/workflows/ci.yml) |
 |---|---|
-| Package | [![PyPI Latest Release](https://img.shields.io/pypi/v/foldrunner.svg)](https://pypi.org/project/foldrunner/) [![Python versions](https://img.shields.io/pypi/pyversions/foldrunner.svg)](https://pypi.org/project/foldrunner/) [![PyPI Downloads](https://img.shields.io/pypi/dm/foldrunner.svg?cacheSeconds=86400)](https://pypistats.org/packages/foldrunner) |
+| Package | [![PyPI Latest Release](https://img.shields.io/pypi/v/foldrunner.svg)](https://pypi.org/project/foldrunner/) [![Python versions](https://img.shields.io/pypi/pyversions/foldrunner.svg)](https://pypi.org/project/foldrunner/) [![PyPI Downloads](https://img.shields.io/pepy/dt/foldrunner.svg)](https://pepy.tech/projects/foldrunner) |
 | Meta | [![License - BSD 3-Clause](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](LICENSE) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) |
+
+Download statistics: [PyPI totals (Pepy)](https://pepy.tech/projects/foldrunner).
 
 ## 🧬 What is it?
 
